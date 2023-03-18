@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style ></style>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <div id="app">
@@ -45,21 +45,38 @@
                   <span v-else>未啟用</span>
                 </td>
                 <td width="120">
-                  <button type="button" class="btn btn-primary" v-on:click="showDetaills(item)">查看細節</button>
+                  <button type="button" class="btn btn-primary" @click="temp = item">查看細節</button>
                 </td>
               </tr>
             </tbody>
           </table>
           <p>目前有 <span>{{ products.length }}</span> 項產品</p>
         </div>
-        <div class="col-md-6">
-          <h2>單一產品細節</h2>
-          <product-detail-component></product-detail-component>
-          <p class="text-secondary">請選擇一個商品查看</p>
+        <div class="col-md-6" :key="temp.id">
+          <h2>單一產品細節</h2>  
+          <p v-if="temp.id == undefine" class="text-secondary">請選擇一個商品查看</p>
+          <div v-else class="card mb-3">
+            <img :src=temp.imageUrl class="card-img-top primary-image" alt="主圖">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ temp.title  }}
+                <span class="badge bg-primary ms-2">{{ temp.category  }}</span>
+              </h5>
+              <p class="card-text">商品描述：{{ temp.description  }}</p>
+              <p class="card-text">商品內容：{{ temp.content }}</p>
+              <div class="d-flex">
+                <p class="card-text me-2">{{ temp.price }}</p>
+                <p class="card-text text-secondary"><del>{{ temp.origin_price }}</del></p>元 / {{ temp.unit }}
+              </div>
+            </div>
+          </div>
+          <p v-for="(image, imageIndex) in temp.imagesUrl">
+            <img :src="image" alt="" class="images m-2"  :key="imageIndex">
+          </p> 
         </div>
       </div>
     </div>
   </div>
-  <script type="javascript" src="/index.js"></script>
+  <script  type="module" src="index.js"></script>
 </body>
 </html>
